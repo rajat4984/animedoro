@@ -1,6 +1,45 @@
-.countdown{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+
+@use "../../scss/variables" as *;
+
+
+.timer{
+
+    .circle{
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-top: 5em;
+        width: 250px;
+    
+        .e-c-base {
+            fill: none;
+            stroke: #B6B6B6;
+            stroke-width: 4px
+          }
+          .e-c-progress {
+            fill: none;
+            stroke: rgba(231, 231, 231, 0.174);
+            stroke-width: 4px;
+            transition: stroke-dashoffset 0.7s;
+          }
+          .e-c-pointer {
+            fill: #FFF;
+            stroke: rgba(231, 231, 231, 0.174);
+            stroke-width: 2px;
+          }
+          #e-pointer { transition: transform 0.7s; }
+    }
+    
+    .controlls {
+        position: absolute;
+        top: 28%;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+      }
+      .display-remain-time {
+        font-weight: 100;
+        font-size: 3rem;
+        color: white
+      }
 }

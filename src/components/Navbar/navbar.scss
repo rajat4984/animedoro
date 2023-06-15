@@ -53,6 +53,7 @@
         background-color: rgba(27, 27, 27, 0.911);
         margin-top: 1em;
         height: 100vh;
+        // z-index: 9999;
         *:not(:first-child) {
           padding: 1em 0.2em 0.5em 1em;
           cursor: pointer;
@@ -87,8 +88,6 @@
 
 
       .nav-links {
-        // display: flex;
-        // align-items: center;
         @include flexBox();
 
         * {
