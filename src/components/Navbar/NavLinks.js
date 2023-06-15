@@ -13,19 +13,34 @@ function NavLinks({ isMobile, closeMobileMenu }) {
       animate={animateTo}
       className="nav-links"
     >
+       <div
+        initial={animationFrom}
+        animate={animateTo}
+        className="search-bar"
+      >
+        <input type="text" placeholder="Search anime" />
+        <button
+          onClick={() => {
+            isMobile && closeMobileMenu();
+           
+          }}
+        >
+          <BiSearchAlt />
+        </button>
+      </div>
       <p
         onClick={() => {
           isMobile && closeMobileMenu();
         }}
       >
-        Change time
+        My Watchlist
       </p>
       <p
         onClick={() => {
           isMobile && closeMobileMenu();
         }}
       >
-        Change unit
+        Logout
       </p>
     </motion.div>
   );

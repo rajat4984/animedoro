@@ -4,6 +4,39 @@
 .navbar {
   @include flexBox(space-between);
   margin: 0.5em;
+  padding: 1em;
+
+  .search-bar {
+    @include flexBox($justify: flex-start);
+    padding: 1em 0.2em 0.5em 1em;
+    input {
+      background: $primary-background;
+      border: transparent;
+      height: 2.5em;
+      width: 300px;
+      border-radius: 5px;
+      outline: none;
+      padding-left: 0.5em;
+      caret-color: white;
+      color: white;
+
+      &::placeholder {
+        color: #ffffffb4;
+        padding-left: 0.5em;
+
+        font-size: 1rem;
+      }
+    }
+    button {
+      background: none;
+      color: white;
+      outline: none;
+      border: none;
+      margin: 0;
+      font-size: 1.2rem;
+      left: 45%;
+    }
+  }
 
   .navigation {
     display: none;
@@ -12,18 +45,15 @@
   .mobile-navigation {
     .mobile-navigation-links {
       position: absolute;
-      // top: clamp(20px, 2em, 500px);
       right: 0%;
-      // background-color: rgba(27, 27, 27, 0.911);
       width: 100%;
-      
-      // height: 100%;
 
       .nav-links {
         padding: 1em 0;
         background-color: rgba(27, 27, 27, 0.911);
+        margin-top: 1em;
         height: 100vh;
-        *{
+        *:not(:first-child) {
           padding: 1em 0.2em 0.5em 1em;
           cursor: pointer;
         }
@@ -39,14 +69,32 @@
     .navigation {
       display: block;
 
+      .search-bar{
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+
+        input{
+          width: 400px;
+        }
+
+        button{
+          position: absolute;
+          left: 85%;
+          display: flex;
+        }
+      }
+
+
       .nav-links {
-        @include flexBox("center","center","row-reverse");
+        // display: flex;
+        // align-items: center;
+        @include flexBox();
 
         * {
           padding: 0.5em;
           border-radius: 10px;
         }
-
       }
     }
   }
