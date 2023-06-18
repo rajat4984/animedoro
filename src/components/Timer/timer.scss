@@ -1,23 +1,31 @@
 @use "../../scss/variables" as *;
 @use "../../scss/mixin" as *;
 
+@keyframes offset {
+  100%{
+    stroke-dashoffset: 0;
+  }
+}
+
   .circle {
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: 5em;
+    margin-top: 4em;
     width: 250px;
 
     .e-c-base {
       fill: none;
-      stroke: #b6b6b6;
       stroke-width: 4px;
     }
     .e-c-progress {
       fill: none;
-      stroke: rgba(231, 231, 231, 0.173);
+      stroke: white;
+      stroke-dasharray: 3.14 * 2 * 100;
       stroke-width: 4px;
       transition: stroke-dashoffset 0.7s;
+      // stroke-dashoffset: 628;
+      // animation: offset 10s linear forwards;
     }
     .e-c-pointer {
       fill: #fff;

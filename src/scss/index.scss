@@ -7,7 +7,6 @@
 body{
     color: white;
     background-image: linear-gradient(to right bottom, #2a0342, #5b075b, #900d6f, #c8187c, #ff2d82);
-    height: 100vh;
 }
 
 /* width */
@@ -22,11 +21,6 @@ body{
   
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: #888;
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: #900d6fc9;
   }
   
