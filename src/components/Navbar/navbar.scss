@@ -4,7 +4,7 @@
 .navbar {
   @include flexBox(space-between);
   margin: 0.5em;
-  padding: 1em;
+  padding: 0.7em;
 
   .search-bar {
     @include flexBox($justify: flex-start);
@@ -70,22 +70,22 @@
     .navigation {
       display: block;
 
-      .search-bar{
+      .search-bar {
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
+        margin-top: 1em;
 
-        input{
+        input {
           width: 400px;
         }
 
-        button{
+        button {
           position: absolute;
           left: 85%;
           display: flex;
         }
       }
-
 
       .nav-links {
         @include flexBox();

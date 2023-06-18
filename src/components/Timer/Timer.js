@@ -1,9 +1,10 @@
 import React from "react";
 import "./timer.scss";
+import { HiPlay, HiPause, HiStop } from "react-icons/hi";
 
 function Timer() {
   return (
-    <div className="timer">
+    <>
       <div className="circle">
         <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
           <g transform="translate(110,110)">
@@ -16,11 +17,16 @@ function Timer() {
             </g>
           </g>
         </svg>
+        <div class="controlls">
+          <div class="display-remain-time">00:30</div>
+        </div>
       </div>
-      <div class="controlls">
-        <div class="display-remain-time">00:30</div>
+      <div className="buttons">
+        <HiPlay className="playBtn" />
+        <HiStop className="stopBtn" />
+        <HiPause className="passBtn" />
       </div>
-    </div>
+    </>
   );
 }
 
