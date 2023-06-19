@@ -4,24 +4,51 @@ import { HiPlay, HiPause, HiStop } from "react-icons/hi";
 
 function Timer() {
   const progressRef = useRef();
-  const [totalTime, setTotalTime] = useState("01:00");
-  const [timer, setTimer] = useState("00:00");
+  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [isStart, setIsStart] = useState(false);
+  const [timerId, setTimerId] = useState(0);
+
+  // timer = setInterval(intervalFunction, 1000);
 
   const startTimer = () => {
-    const seconds = Number(totalTime.slice(3, 5));
-    const minutes = Number(totalTime.slice(0, 2));
-    progressRef.current.style.strokeDashoffset = "628";
-    progressRef.current.style.animation = `offset ${
-      minutes * 60 + seconds
-    }s linear forwards`;
+    // const mySeconds = Number(totalTime.slice(3, 5));
+    // const myMinutes = Number(totalTime.slice(0, 2));
+    // progressRef.current.style.strokeDashoffset = "628";
+    // progressRef.current.style.animation = `offset ${
+    //   myMinutes * 60 + mySeconds
+    // }s linear forwards`;
+    // const timer = setInterval(() => {
+    //   setSeconds((prevSec) => prevSec + 1);
+    //   if (seconds === 10) {
+    //     setMinutes(minutes + 1);
+    //     setSeconds(0);
+    //   }
+    // }, 1000);
+    // if (seconds === 10) {
+    //   clearInterval(timer);
+    // }
   };
 
-  const pauseTimer = () => {
-    console.log(progressRef.current.style.animationDuration);
-  };
+  useEffect(() => {
+    let intervalId = null;
+    if (isStart) {
+      intervalId = setInterval(() => {
+        setSeconds((prevSec) => prevSec + 1);
+        if (seconds === 10) {
+          setMinutes(minutes + 1);
+          setSeconds(0);
+        }
+      }, 1000);
+    } else {
+      clearInterval(intervalId);
+    }
+  }, [isStart]);
 
   const stopTimer = () => {
-    setTotalTime("00:00");
+    setSeconds(0);
+    setMinutes(0);
+    setIsStart(false);
     progressRef.current.style.animation = `offset 0s linear forwards`;
   };
   return (
@@ -36,13 +63,27 @@ function Timer() {
           </g>
         </svg>
         <div className="controlls">
-          <div className="display-remain-time">{timer}</div>
+          <div className="display-remain-time">
+            {minutes < 10 ? "0" + minutes : minutes}:
+            {seconds < 10 ? "0" + seconds : seconds}
+          </div>
         </div>
       </div>
       <div className="buttons">
-        <HiPlay onClick={startTimer} className="playBtn" />
+        <HiPlay
+          onClick={() => {
+            startTimer();
+            setIsStart(true);
+          }}
+          className="playBtn"
+        />
         <HiStop onClick={stopTimer} className="stopBtn" />
-        <HiPause onClick={pauseTimer} className="passBtn" />
+        <HiPause
+          onClick={() => {
+            setIsStart(false);
+          }}
+          className="passBtn"
+        />
       </div>
     </>
   );
