@@ -32,16 +32,20 @@ function Timer() {
 
   useEffect(() => {
     let intervalId = null;
+    console.log(seconds);
     if (isStart) {
       intervalId = setInterval(() => {
-        setSeconds((prevSec) => prevSec + 1);
-        if (seconds === 10) {
-          setMinutes(minutes + 1);
-          setSeconds(0);
-        }
+        setSeconds((prevSec) => {
+          if (prevSec === 59) {
+            setMinutes(minutes + 1);
+            setSeconds(0);
+          }
+          return prevSec + 1;
+        });
       }, 1000);
+      setTimerId(intervalId);
     } else {
-      clearInterval(intervalId);
+      clearInterval(timerId);
     }
   }, [isStart]);
 
@@ -72,7 +76,7 @@ function Timer() {
       <div className="buttons">
         <HiPlay
           onClick={() => {
-            startTimer();
+            // startTimer();
             setIsStart(true);
           }}
           className="playBtn"

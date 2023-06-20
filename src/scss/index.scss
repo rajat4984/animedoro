@@ -1,26 +1,33 @@
-*{
-    margin: 0;
-    padding: 0;
-    font-family: 'Red Hat Display', sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Red Hat Display", sans-serif;
 }
 
-body{
-    color: white;
-    background-image: linear-gradient(to right bottom, #2a0342, #5b075b, #900d6f, #c8187c, #ff2d82);
+body {
+  min-height: 100vh;
+  color: white;
+  background-image: linear-gradient(
+    to right bottom,
+    #2a0342,
+    #5b075b,
+    #900d6f,
+    #c8187c,
+    #ff2d82
+  );
 }
 
 /* width */
 ::-webkit-scrollbar {
-    width: 10px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-  
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #900d6fc9;
-  }
-  
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #900d6fc9;
+}
