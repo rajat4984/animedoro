@@ -8,6 +8,7 @@ function Timer() {
   const [minutes, setMinutes] = useState(0);
   const [isStart, setIsStart] = useState(false);
   const [timerId, setTimerId] = useState(0);
+  const [totalTime,setTotalTime] = useState(1);
 
   // timer = setInterval(intervalFunction, 1000);
 
@@ -32,13 +33,21 @@ function Timer() {
 
   useEffect(() => {
     let intervalId = null;
-    console.log(seconds);
     if (isStart) {
       intervalId = setInterval(() => {
         setSeconds((prevSec) => {
+          const removeAnimation = 628/(totalTime*60)
+          let calculatedOffSet = removeAnimation*(prevSec+1);
+          progressRef.current.style.strokeDashoffset = `${calculatedOffSet}`;
           if (prevSec === 59) {
-            setMinutes(minutes + 1);
+            setMinutes(minutes+1)
             setSeconds(0);
+          }
+
+          if(prevSec === totalTime*60){
+            clearInterval(timerId);
+            setIsStart(false);
+            return prevSec;
           }
           return prevSec + 1;
         });
@@ -49,11 +58,16 @@ function Timer() {
     }
   }, [isStart]);
 
+
+  const getMinutes = ()=>{
+    return minutes;
+  }
+
   const stopTimer = () => {
     setSeconds(0);
     setMinutes(0);
     setIsStart(false);
-    progressRef.current.style.animation = `offset 0s linear forwards`;
+    progressRef.current.style.strokeDashoffset = 0;
   };
   return (
     <>
