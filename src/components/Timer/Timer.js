@@ -1,67 +1,34 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./timer.scss";
 import { HiPlay, HiPause, HiStop } from "react-icons/hi";
+import useInterval from "../../hooks/useInterval";
 
 function Timer() {
   const progressRef = useRef();
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [isStart, setIsStart] = useState(false);
-  const [timerId, setTimerId] = useState(0);
-  const [totalTime,setTotalTime] = useState(1);
+  const [totalTime, setTotalTime] = useState(1);
 
-  // timer = setInterval(intervalFunction, 1000);
+  const timer = () => {
+    setSeconds(seconds + 1);
+    const removeAnimation = 628 / (totalTime * 60);
+    let calculatedOffSet = removeAnimation * (minutes * 60 + (seconds + 1));
+    progressRef.current.style.strokeDashoffset = `${calculatedOffSet}`;
 
-  const startTimer = () => {
-    // const mySeconds = Number(totalTime.slice(3, 5));
-    // const myMinutes = Number(totalTime.slice(0, 2));
-    // progressRef.current.style.strokeDashoffset = "628";
-    // progressRef.current.style.animation = `offset ${
-    //   myMinutes * 60 + mySeconds
-    // }s linear forwards`;
-    // const timer = setInterval(() => {
-    //   setSeconds((prevSec) => prevSec + 1);
-    //   if (seconds === 10) {
-    //     setMinutes(minutes + 1);
-    //     setSeconds(0);
-    //   }
-    // }, 1000);
-    // if (seconds === 10) {
-    //   clearInterval(timer);
-    // }
+    if (seconds === 59) {
+      setMinutes(minutes + 1);
+      setSeconds(0);
+    }
+
+    if (minutes === totalTime) {
+      progressRef.current.style.strokeDashoffset = `628`;
+      setSeconds(0);
+      setIsStart(false);
+    }
   };
 
-  useEffect(() => {
-    let intervalId = null;
-    if (isStart) {
-      intervalId = setInterval(() => {
-        setSeconds((prevSec) => {
-          const removeAnimation = 628/(totalTime*60)
-          let calculatedOffSet = removeAnimation*(prevSec+1);
-          progressRef.current.style.strokeDashoffset = `${calculatedOffSet}`;
-          if (prevSec === 59) {
-            setMinutes(minutes+1)
-            setSeconds(0);
-          }
-
-          if(prevSec === totalTime*60){
-            clearInterval(timerId);
-            setIsStart(false);
-            return prevSec;
-          }
-          return prevSec + 1;
-        });
-      }, 1000);
-      setTimerId(intervalId);
-    } else {
-      clearInterval(timerId);
-    }
-  }, [isStart]);
-
-
-  const getMinutes = ()=>{
-    return minutes;
-  }
+  useInterval(timer, isStart ? 1000 : null); //sets setinterval 
 
   const stopTimer = () => {
     setSeconds(0);
@@ -90,7 +57,6 @@ function Timer() {
       <div className="buttons">
         <HiPlay
           onClick={() => {
-            // startTimer();
             setIsStart(true);
           }}
           className="playBtn"
