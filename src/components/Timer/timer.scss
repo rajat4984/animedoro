@@ -2,16 +2,40 @@
 @use "../../scss/mixin" as *;
 
 @keyframes offset {
-  100%{
+  100% {
     stroke-dashoffset: 0;
   }
 }
+
+.timer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  .selectTime {
+    position: absolute;
+    top: 13%;
+    left: 65%;
+    background-color: $primary-background;
+    border: none;
+    outline: none;
+    padding: 0.5em;
+    color: white;
+    border-right: 16px solid transparent;
+    font-weight: 500;
+    border-radius: 10px;
+
+    option {
+      color: black;
+    }
+  }
 
   .circle {
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: 4em;
+    margin-top: 5em;
     width: 250px;
 
     .e-c-base {
@@ -24,8 +48,7 @@
       stroke-dasharray: 3.14 * 2 * 100;
       stroke-width: 4px;
       transition: stroke-dashoffset 0.7s;
-      stroke-dashoffset:0;
-      // animation: offset 10s linear forwards;
+      stroke-dashoffset: 0;
     }
     .e-c-pointer {
       fill: #fff;
@@ -39,7 +62,7 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%,-50%);
+      transform: translate(-50%, -50%);
       text-align: center;
     }
     .display-remain-time {
@@ -47,28 +70,37 @@
       font-size: 3rem;
       color: white;
     }
+  }
 
-    @include sm{
-      width: 330px;
+  .buttons {
+    @include flexBox();
+    font-size: 2.5rem;
+    .stopBtn {
+      margin: 0.5em;
     }
   }
 
-  .buttons{
-    @include flexBox();
-    font-size: 2.5rem;
-    .stopBtn{
-      margin: .5em;
+  @include sm {
+
+    margin-top: 2em;
+
+    .selectTime{
+      left: 90%;
+    }
+    .circle {
+      width: 330px;
+      
     }
 
-    @include sm{
+    .buttons {
       font-size: 3.5rem;
-      *{
+      * {
         cursor: pointer;
-        transition: .3s ease-in-out;
-        :hover{
-          transform: scale(1.1)
+        transition: 0.3s ease-in-out;
+        :hover {
+          transform: scale(1.1);
         }
       }
     }
   }
-
+}
