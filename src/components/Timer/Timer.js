@@ -53,6 +53,7 @@ function Timer() {
         <option value="40">40 Minutes</option>
         <option value="60">60 Minutes</option>
       </select>
+      <h3 className="break-text">Time to focus!! 🎮</h3>
       <div className="circle">
         <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
           <g transform="translate(110,110)">

@@ -8,15 +8,22 @@
 }
 
 .timer {
+  margin-top: 5em;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 
+  .break-text{
+    text-align: center;
+    margin: 1em auto;
+    font-weight: 500;
+  }
+
   .selectTime {
     position: absolute;
     top: 13%;
-    left: 65%;
+    left: 60%;
     background-color: $primary-background;
     border: none;
     outline: none;
@@ -25,6 +32,7 @@
     border-right: 16px solid transparent;
     font-weight: 500;
     border-radius: 10px;
+    display: none;
 
     option {
       color: black;
@@ -35,7 +43,7 @@
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: 5em;
+    
     width: 250px;
 
     .e-c-base {
