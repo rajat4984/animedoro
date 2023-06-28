@@ -8,6 +8,7 @@
 }
 
 .timer {
+  margin-top: 5em;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -38,7 +39,7 @@
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: 5em;
+    
     width: 250px;
 
     .breakText{
@@ -91,13 +92,13 @@
   }
 
   @include sm {
-    margin-top: 4em;
+    margin-top: 6em;
 
     .timerSettings {
       .selectTime {
         display: block;
         left: 95%;
-        top:30%;
+        top:20%;
       }
     }
     .circle {
