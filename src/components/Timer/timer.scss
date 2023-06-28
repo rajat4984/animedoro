@@ -13,21 +13,24 @@
   left: 50%;
   transform: translate(-50%, -50%);
 
-  .selectTime {
-    position: absolute;
-    top: 13%;
-    left: 65%;
-    background-color: $primary-background;
-    border: none;
-    outline: none;
-    padding: 0.5em;
-    color: white;
-    border-right: 16px solid transparent;
-    font-weight: 500;
-    border-radius: 10px;
+  .timerSettings {
+    .selectTime {
+      position: absolute;
+      top: 13%;
+      left: 65%;
+      background-color: $primary-background;
+      border: none;
+      outline: none;
+      padding: 0.5em;
+      color: white;
+      border-right: 16px solid transparent;
+      font-weight: 500;
+      border-radius: 10px;
+      display: none;
 
-    option {
-      color: black;
+      option {
+        color: black;
+      }
     }
   }
 
@@ -37,6 +40,13 @@
     transform: translateX(-50%);
     margin-top: 5em;
     width: 250px;
+
+    .breakText{
+      text-align: center;
+      margin-bottom: .5em;
+      font-weight: 500;
+      font-size: 1.5rem;
+    }
 
     .e-c-base {
       fill: none;
@@ -81,15 +91,17 @@
   }
 
   @include sm {
+    margin-top: 4em;
 
-    margin-top: 2em;
-
-    .selectTime{
-      left: 90%;
+    .timerSettings {
+      .selectTime {
+        display: block;
+        left: 95%;
+        top:30%;
+      }
     }
     .circle {
       width: 330px;
-      
     }
 
     .buttons {

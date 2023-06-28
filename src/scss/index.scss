@@ -5,7 +5,6 @@
 }
 
 body {
-  min-height: 100vh;
   color: white;
   background-image: linear-gradient(
     to right bottom,
@@ -15,6 +14,8 @@ body {
     #c8187c,
     #ff2d82
   );
+  box-sizing: border-box;
+  background-repeat: no-repeat;
 }
 
 /* width */

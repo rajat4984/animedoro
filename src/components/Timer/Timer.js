@@ -2,13 +2,15 @@ import React, { useRef, useState } from "react";
 import "./timer.scss";
 import { HiPlay, HiPause, HiStop } from "react-icons/hi";
 import useInterval from "../../hooks/useInterval";
+import { useGlobalContext } from "../../context";
 
 function Timer() {
+  const { totalTime, minutes, setMinutes,handleSelectTime} = useGlobalContext();
   const progressRef = useRef();
   const [seconds, setSeconds] = useState(0);
-  const [minutes, setMinutes] = useState(1);
   const [isStart, setIsStart] = useState(false);
-  const [totalTime, setTotalTime] = useState(1);
+
+
 
   const timer = () => {
     const removeAnimation = 628 / (totalTime * 60);
@@ -38,22 +40,18 @@ function Timer() {
     progressRef.current.style.strokeDashoffset = 0;
   };
 
-  const handleSelect = (e) => {
-    setTotalTime(Number(e.target.value));
-    setMinutes(Number(e.target.value));
-  };
   return (
     <div className="timer">
-      <select
-        onChange={(e) => handleSelect(e)}
-        name="cars"
-        className="selectTime"
-      >
-        <option value="1">1 Minute</option>
-        <option value="40">40 Minutes</option>
-        <option value="60">60 Minutes</option>
-      </select>
+   
+      <div className="timerSettings">
+        <select onChange={(e) => handleSelectTime(e)} className="selectTime">
+          <option value="1">1 Minute</option>
+          <option value="40">40 Minutes</option>
+          <option value="60">60 Minutes</option>
+        </select>
+      </div>
       <div className="circle">
+      <h2 className="breakText">Break time!!</h2>
         <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
           <g transform="translate(110,110)">
             <circle r="100" className="e-c-base" />
