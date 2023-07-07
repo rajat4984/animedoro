@@ -39,7 +39,7 @@ function NavLinks({ isMobile, closeMobileMenu }) {
           isMobile && closeMobileMenu();
         }}
       >
-        Logout
+        Login with mal
       </p>
       <p>
         {isMobile && (
