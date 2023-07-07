@@ -7,6 +7,10 @@ export const AppProvider = ({ children }) => {
   const [minutes, setMinutes] = useState(1);
   const [seconds, setSeconds] = useState(0);
   const [isStart, setIsStart] = useState(false);
+  const [breakSessions, setBreakSessions] = useState({ sessions: 0 });
+  const [workSessions, setWorkSessions] = useState({ sessions: 0 });
+  const [isBreak, setIsBreak] = useState(false);
+
   const progressRef = useRef();
 
   const handleSelectTime = (e) => {
@@ -15,7 +19,6 @@ export const AppProvider = ({ children }) => {
     setTotalTime(Number(e.target.value));
     setMinutes(Number(e.target.value));
     progressRef.current.style.strokeDashoffset = 0;
-
   };
   return (
     <AppContext.Provider
@@ -29,7 +32,13 @@ export const AppProvider = ({ children }) => {
         setIsStart,
         seconds,
         setSeconds,
-        progressRef
+        progressRef,
+        workSessions,
+        setWorkSessions,
+        breakSessions,
+        setBreakSessions,
+        isBreak,
+        setIsBreak,
       }}
     >
       {children}

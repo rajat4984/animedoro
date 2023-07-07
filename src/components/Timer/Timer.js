@@ -7,6 +7,7 @@ import { useGlobalContext } from "../../context";
 function Timer() {
   const {
     totalTime,
+    setTotalTime,
     minutes,
     setMinutes,
     handleSelectTime,
@@ -15,6 +16,10 @@ function Timer() {
     seconds,
     setSeconds,
     progressRef,
+    setWorkSessions,
+    setBreakSessions,
+    isBreak,
+    setIsBreak,
   } = useGlobalContext();
 
   const timer = () => {
@@ -28,6 +33,23 @@ function Timer() {
       setSeconds(0);
       setMinutes(totalTime);
       setIsStart(false);
+
+      if (isBreak) {
+        setBreakSessions((prevState) => ({
+          ...prevState,
+          sessions: prevState.sessions + 1,
+        }));
+        setMinutes(1);
+        setTotalTime(1);
+      } else {
+        setWorkSessions((prevState) => ({
+          ...prevState,
+          sessions: prevState.sessions + 1,
+        }));
+        setTotalTime(2); //make this 20
+        setMinutes(2); // make this 20
+      }
+      setIsBreak(!isBreak);
     }
 
     if (seconds === 0 && minutes !== 0) {
@@ -40,7 +62,11 @@ function Timer() {
 
   const stopTimer = () => {
     setSeconds(0);
-    setMinutes(totalTime);
+    if (isBreak) {
+      setMinutes(1);
+    } else {
+      setMinutes(totalTime);
+    }
     setIsStart(false);
     progressRef.current.style.strokeDashoffset = 0;
   };
@@ -48,14 +74,16 @@ function Timer() {
   return (
     <div className="timer">
       <div className="timerSettings">
-        <select onChange={(e) => handleSelectTime(e)} className="selectTime">
-          <option value="1">1 Minute</option>
-          <option value="40">40 Minutes</option>
-          <option value="60">60 Minutes</option>
-        </select>
+        {!isBreak && (
+          <select onChange={(e) => handleSelectTime(e)} className="selectTime">
+            <option value="1">1 Minute</option>
+            <option value="40">40 Minutes</option>
+            <option value="60">60 Minutes</option>
+          </select>
+        )}
       </div>
       <div className="circle">
-        <h2 className="breakText">Break time!!</h2>
+        <h2 className="breakText">{isBreak ? "Break Time" : "Focus Time"}</h2>
         <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
           <g transform="translate(110,110)">
             <circle r="100" className="e-c-base" />
