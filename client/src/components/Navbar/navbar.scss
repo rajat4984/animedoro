@@ -90,6 +90,15 @@
       .nav-links {
         @include flexBox();
 
+        p{
+          cursor: pointer;
+          transition: .2s ease-in-out;
+          &:hover{
+            background-color: white;
+            color: black;
+          }
+        }
+
         * {
           padding: 0.5em;
           border-radius: 10px;

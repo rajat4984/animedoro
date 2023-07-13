@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useRef, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 const AppContext = createContext();
 
@@ -10,8 +16,35 @@ export const AppProvider = ({ children }) => {
   const [breakSessions, setBreakSessions] = useState({ sessions: 0 });
   const [workSessions, setWorkSessions] = useState({ sessions: 0 });
   const [isBreak, setIsBreak] = useState(false);
+  const [codeChallenge, setCodeChallenge] = useState("");
 
   const progressRef = useRef();
+
+  const handleCodeChallenge = async () => {
+    console.log("lez go");
+    function dec2hex(dec) {
+      return ("0" + dec.toString(16)).substr(-2);
+    }
+
+    function generateRandomString() {
+      let array = new Uint32Array(56 / 2);
+      window.crypto.getRandomValues(array);
+      return Array.from(array, dec2hex).join("");
+    }
+
+    const challenge = generateRandomString();
+
+    if(!(sessionStorage.getItem("codeChallenge"))){
+      console.log("Hello");
+      sessionStorage.setItem("codeChallenge",challenge);
+    }
+
+    setCodeChallenge(challenge); //code challenge and verifier are same in this authentication
+  };
+
+  useEffect(() => {
+    handleCodeChallenge();
+  }, []);
 
   const handleSelectTime = (e) => {
     setIsStart(false);
@@ -39,6 +72,7 @@ export const AppProvider = ({ children }) => {
         setBreakSessions,
         isBreak,
         setIsBreak,
+        codeChallenge
       }}
     >
       {children}
