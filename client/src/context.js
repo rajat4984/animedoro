@@ -17,11 +17,11 @@ export const AppProvider = ({ children }) => {
   const [workSessions, setWorkSessions] = useState({ sessions: 0 });
   const [isBreak, setIsBreak] = useState(false);
   const [codeChallenge, setCodeChallenge] = useState("");
+  const [userInfo,setUserInfo] = useState({});
 
   const progressRef = useRef();
 
   const handleCodeChallenge = async () => {
-    console.log("lez go");
     function dec2hex(dec) {
       return ("0" + dec.toString(16)).substr(-2);
     }
@@ -71,7 +71,9 @@ export const AppProvider = ({ children }) => {
         setBreakSessions,
         isBreak,
         setIsBreak,
-        codeChallenge
+        codeChallenge,
+        userInfo,
+        setUserInfo
       }}
     >
       {children}

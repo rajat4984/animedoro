@@ -6,7 +6,8 @@ import { useGlobalContext } from "../../context";
 import axios from "axios";
 
 function NavLinks({ isMobile, closeMobileMenu }) {
-  const { handleSelectTime, codeChallenge } = useGlobalContext();
+  const { handleSelectTime, codeChallenge, userInfo, setUserInfo } =
+    useGlobalContext();
 
   useEffect(() => {
     // for getting token from mal server
@@ -21,7 +22,7 @@ function NavLinks({ isMobile, closeMobileMenu }) {
       if (convertedArr[0] !== undefined) {
         try {
           const response = await axios.post(
-            "http://localhost:8800/get-token",
+            "/auth/get-token",
 
             {
               code: convertedArr[0],
@@ -35,14 +36,20 @@ function NavLinks({ isMobile, closeMobileMenu }) {
               },
             }
           );
-          console.log(response.data);
-          sessionStorage.setItem("access_token",response.data.access_token);
-          sessionStorage.setItem("refresh_token",response.data.refresh_token);
-          sessionStorage.setItem("expires_in",response.data.expires_in)
+          sessionStorage.setItem("access_token", response.data.access_token);
+          sessionStorage.setItem("refresh_token", response.data.refresh_token);
+          sessionStorage.setItem("expires_in", response.data.expires_in);
 
           try {
-           const response = await axios.get("http://localhost:8800/get-profile-info",{params:{access_token:sessionStorage.getItem("access_token")}});
-           console.log(response.data);
+            const response = await axios.get(
+              "/auth/get-profile-info",
+              {
+                params: {
+                  access_token: sessionStorage.getItem("access_token"),
+                },
+              }
+            );
+            setUserInfo(response.data);
           } catch (error) {
             console.log(error);
           }
@@ -60,7 +67,7 @@ function NavLinks({ isMobile, closeMobileMenu }) {
   //for gettting code from mal server
   const handleLogin = async () => {
     try {
-      const response = await axios.get("http://localhost:8800/anime-proxy", {
+      const response = await axios.get("/auth/anime-proxy", {
         params: { challenge: sessionStorage.getItem("codeChallenge") },
       });
       const path = `https://myanimelist.net${response.data.path}`;
@@ -93,14 +100,22 @@ function NavLinks({ isMobile, closeMobileMenu }) {
       >
         My Watchlist
       </p>
-      <p
-        onClick={() => {
-          isMobile && closeMobileMenu();
-          handleLogin();
-        }}
-      >
-        Login with mal
-      </p>
+
+      {userInfo.name ? (
+        
+          <img className="profilePicture" src={userInfo.picture} />
+        
+      ):(
+        <p
+          onClick={() => {
+            isMobile && closeMobileMenu();
+            handleLogin();
+          }}
+        >
+          Login with mal
+        </p>
+      ) }
+
       {isMobile && (
         <p>
           <select
