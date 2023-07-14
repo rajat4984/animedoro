@@ -7,8 +7,9 @@ import axios from "axios";
 
 function NavLinks({ isMobile, closeMobileMenu }) {
   const { handleSelectTime, codeChallenge } = useGlobalContext();
-  
+
   useEffect(() => {
+    // for getting token from mal server
     const getToken = async () => {
       const arr = window.location.search.split("&");
       const convertedArr = arr.map((item) => {
@@ -17,7 +18,7 @@ function NavLinks({ isMobile, closeMobileMenu }) {
         return item;
       });
 
-      if (codeChallenge !== "") {
+      if (convertedArr[0] !== undefined) {
         try {
           const response = await axios.post(
             "http://localhost:8800/get-token",
@@ -34,7 +35,17 @@ function NavLinks({ isMobile, closeMobileMenu }) {
               },
             }
           );
-          console.log(response);
+          console.log(response.data);
+          sessionStorage.setItem("access_token",response.data.access_token);
+          sessionStorage.setItem("refresh_token",response.data.refresh_token);
+          sessionStorage.setItem("expires_in",response.data.expires_in)
+
+          try {
+           const response = await axios.get("http://localhost:8800/get-profile-info",{params:{access_token:sessionStorage.getItem("access_token")}});
+           console.log(response.data);
+          } catch (error) {
+            console.log(error);
+          }
         } catch (error) {
           console.log(error);
         }
@@ -46,7 +57,7 @@ function NavLinks({ isMobile, closeMobileMenu }) {
   const animationFrom = { opacity: 0, x: 200 };
   const animateTo = { opacity: 1, x: 0 };
 
-  // code verifier and code challenge
+  //for gettting code from mal server
   const handleLogin = async () => {
     try {
       const response = await axios.get("http://localhost:8800/anime-proxy", {

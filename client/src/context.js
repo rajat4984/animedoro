@@ -35,7 +35,6 @@ export const AppProvider = ({ children }) => {
     const challenge = generateRandomString();
 
     if(!(sessionStorage.getItem("codeChallenge"))){
-      console.log("Hello");
       sessionStorage.setItem("codeChallenge",challenge);
     }
 
