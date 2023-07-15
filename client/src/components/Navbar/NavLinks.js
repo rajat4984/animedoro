@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import "./navbar.scss";
 import { motion } from "framer-motion";
@@ -20,45 +20,46 @@ function NavLinks({ isMobile, closeMobileMenu }) {
       });
 
       if (convertedArr[0] !== undefined) {
-        try {
-          const response = await axios.post(
-            "/auth/get-token",
+        const tokenResponse = await axios.post(
+          "/auth/get-token",
 
-            {
-              code: convertedArr[0],
-              state: convertedArr[1],
-              challenge: sessionStorage.getItem("codeChallenge"),
+          {
+            code: convertedArr[0],
+            state: convertedArr[1],
+            challenge: sessionStorage.getItem("codeChallenge"),
+          },
+
+          {
+            headers: {
+              "Content-Type": "application/json",
             },
-
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          sessionStorage.setItem("access_token", response.data.access_token);
-          sessionStorage.setItem("refresh_token", response.data.refresh_token);
-          sessionStorage.setItem("expires_in", response.data.expires_in);
-
-          try {
-            const response = await axios.get(
-              "/auth/get-profile-info",
-              {
-                params: {
-                  access_token: sessionStorage.getItem("access_token"),
-                },
-              }
-            );
-            setUserInfo(response.data);
-          } catch (error) {
-            console.log(error);
           }
-        } catch (error) {
-          console.log(error);
-        }
+        );
+        sessionStorage.setItem("access_token", tokenResponse.data.access_token);
+        sessionStorage.setItem(
+          "refresh_token",
+          tokenResponse.data.refresh_token
+        );
+        sessionStorage.setItem("expires_in", tokenResponse.data.expires_in);
+
+        const profileResponse = await axios.get("/auth/get-profile-info", {
+          params: {
+            access_token: sessionStorage.getItem("access_token"),
+          },
+        });
+        setUserInfo(profileResponse.data);
+
+        const animeResponse = await axios.get("/anime/get-anime-list",{
+          params:{
+            access_token:sessionStorage.getItem("access_token")
+          }
+        })
+        console.log(animeResponse);
       }
     };
+
     getToken();
+
   }, [codeChallenge]);
 
   const animationFrom = { opacity: 0, x: 200 };
@@ -102,10 +103,8 @@ function NavLinks({ isMobile, closeMobileMenu }) {
       </p>
 
       {userInfo.name ? (
-        
-          <img className="profilePicture" src={userInfo.picture} />
-        
-      ):(
+        <img className="profilePicture" src={userInfo.picture} />
+      ) : (
         <p
           onClick={() => {
             isMobile && closeMobileMenu();
@@ -114,7 +113,7 @@ function NavLinks({ isMobile, closeMobileMenu }) {
         >
           Login with mal
         </p>
-      ) }
+      )}
 
       {isMobile && (
         <p>
