@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import "./navbar.scss";
 import { motion } from "framer-motion";
@@ -8,6 +8,8 @@ import axios from "axios";
 function NavLinks({ isMobile, closeMobileMenu }) {
   const { handleSelectTime, codeChallenge, userInfo, setUserInfo } =
     useGlobalContext();
+
+  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     // for getting token from mal server
@@ -48,20 +50,13 @@ function NavLinks({ isMobile, closeMobileMenu }) {
           },
         });
         setUserInfo(profileResponse.data);
-
-        const animeResponse = await axios.get("/anime/get-anime-list",{
-          params:{
-            access_token:sessionStorage.getItem("access_token")
-          }
-        })
-        console.log(animeResponse);
       }
     };
 
     getToken();
-
   }, [codeChallenge]);
 
+  // for navbar animation
   const animationFrom = { opacity: 0, x: 200 };
   const animateTo = { opacity: 1, x: 0 };
 
@@ -78,6 +73,25 @@ function NavLinks({ isMobile, closeMobileMenu }) {
     }
   };
 
+  //for searching anime
+  const searchAnime = async (searchValue) => {
+    console.log(searchValue);
+    if (searchValue.length >= 3) {
+      const animeResponse = await axios.get("/anime/get-anime-list", {
+        params: {
+          access_token: sessionStorage.getItem("access_token"),
+          searchValue,
+        },
+      });
+      console.log(animeResponse);
+    }
+  };
+
+  const handleSearch = (value) => {
+    setSearchInput(value);
+    searchAnime(value);
+  };
+
   return (
     <motion.div
       initial={animationFrom}
@@ -85,7 +99,12 @@ function NavLinks({ isMobile, closeMobileMenu }) {
       className="nav-links"
     >
       <div initial={animationFrom} animate={animateTo} className="search-bar">
-        <input type="text" placeholder="Search anime" />
+        <input
+          value={searchInput}
+          type="text"
+          placeholder="Search anime"
+          onChange={(e) => handleSearch(e.target.value)}
+        />
         <button
           onClick={() => {
             isMobile && closeMobileMenu();
