@@ -105,13 +105,15 @@ function NavLinks({ isMobile, closeMobileMenu }) {
           placeholder="Search anime"
           onChange={(e) => handleSearch(e.target.value)}
         />
-        <button
-          onClick={() => {
-            isMobile && closeMobileMenu();
-          }}
-        >
-          <BiSearchAlt />
-        </button>
+        
+        <div className="suggestionContainer">
+          <div className="suggestionItem">hello</div>
+        </div>
+         
+        <div className="suggestionContainer">
+          <div className="suggestionItem">hello</div>
+        </div>
+        
       </div>
       <p
         onClick={() => {

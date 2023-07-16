@@ -7,7 +7,7 @@
   padding: 0.7em;
 
   .search-bar {
-    @include flexBox($justify: flex-start);
+    // @include flexBox($justify: flex-start);
     padding: 1em 0.2em 0.5em 1em;
     input {
       background: $primary-background;
@@ -20,22 +20,16 @@
       caret-color: white;
       color: white;
 
+
       &::placeholder {
         color: #ffffffb4;
         padding-left: 0.5em;
-
         font-size: 1rem;
       }
     }
-    button {
-      background: none;
-      color: white;
-      outline: none;
-      border: none;
-      margin: 0;
-      font-size: 1.2rem;
-      left: 45%;
-    }
+
+
+    
   }
 
   .navigation {
@@ -59,14 +53,23 @@
           cursor: pointer;
         }
 
+        .suggestionContainer{
+          padding: 0;       
+          .suggestionItem{
+            z-index: 999;
+            padding-left: 0.5em;
+            height: 2em;
+            width: 300px;
+            background-color: red;
+          }
+        }
+
         .profilePicture{
           border-radius: 50%;
           width: 50px;
           height: 50px;
           object-fit: cover;
         }
-
-    
       }
     }
   }
@@ -87,12 +90,9 @@
 
         input {
           width: 400px;
-        }
-
-        button {
-          position: absolute;
-          left: 85%;
-          display: flex;
+          padding-left: 1em;
+          font-size: 1rem;
+          height: 2em;
         }
       }
 
