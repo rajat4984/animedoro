@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { BiSearchAlt } from "react-icons/bi";
+import React, { useEffect, useState, useSyncExternalStore } from "react";
+import { IoMdClose } from "react-icons/io";
 import "./navbar.scss";
 import { motion } from "framer-motion";
 import { useGlobalContext } from "../../context";
@@ -10,6 +10,7 @@ function NavLinks({ isMobile, closeMobileMenu }) {
     useGlobalContext();
 
   const [searchInput, setSearchInput] = useState("");
+  const [animeList, setAnimeList] = useState([]);
 
   useEffect(() => {
     // for getting token from mal server
@@ -75,7 +76,6 @@ function NavLinks({ isMobile, closeMobileMenu }) {
 
   //for searching anime
   const searchAnime = async (searchValue) => {
-    console.log(searchValue);
     if (searchValue.length >= 3) {
       const animeResponse = await axios.get("/anime/get-anime-list", {
         params: {
@@ -83,7 +83,7 @@ function NavLinks({ isMobile, closeMobileMenu }) {
           searchValue,
         },
       });
-      console.log(animeResponse);
+      setAnimeList(animeResponse.data.data);
     }
   };
 
@@ -105,15 +105,25 @@ function NavLinks({ isMobile, closeMobileMenu }) {
           placeholder="Search anime"
           onChange={(e) => handleSearch(e.target.value)}
         />
-        
-        <div className="suggestionContainer">
-          <div className="suggestionItem">hello</div>
+          <div className="suggestionContainer">
+          {animeList.map((anime) => {
+            return (
+              <div className="suggestionItem" key={anime.node.id}>
+                <p>{anime.node.title}</p>
+              </div>
+            );
+          })}
         </div>
-         
-        <div className="suggestionContainer">
-          <div className="suggestionItem">hello</div>
-        </div>
-        
+        <button
+          onClick={() => {
+            setSearchInput("");
+            setAnimeList([]);
+          }}
+        >
+          {searchInput.length >= 1 && <IoMdClose />}
+        </button>
+
+      
       </div>
       <p
         onClick={() => {
