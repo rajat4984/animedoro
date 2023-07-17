@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useSyncExternalStore } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import "./navbar.scss";
 import { motion } from "framer-motion";
 import { useGlobalContext } from "../../context";
 import axios from "axios";
 import { getAccessToken, getAnime, getProfileInfo } from "../../apiCalls/auth";
+import { Link } from "react-router-dom";
 
 function NavLinks({ isMobile, closeMobileMenu }) {
   const { handleSelectTime, codeChallenge, userInfo, setUserInfo } =
@@ -25,6 +26,7 @@ function NavLinks({ isMobile, closeMobileMenu }) {
 
       if (convertedArr[0] !== undefined) {
         const tokenResponse = await getAccessToken(convertedArr); //call for getting access token
+        console.log(tokenResponse);
         sessionStorage.setItem("access_token", tokenResponse.data.access_token);
         sessionStorage.setItem(
           "refresh_token",
@@ -40,9 +42,11 @@ function NavLinks({ isMobile, closeMobileMenu }) {
     getToken();
   }, [codeChallenge]);
 
+
   // for navbar animation
   const animationFrom = { opacity: 0, x: 200 };
   const animateTo = { opacity: 1, x: 0 };
+
 
   //for gettting code from mal server
   const handleLogin = async () => {
@@ -86,12 +90,11 @@ function NavLinks({ isMobile, closeMobileMenu }) {
         {searchInput && (
           <div className="suggestionContainer">
             {animeList.map((anime) => {
-              console.log(anime);
               return (
-                <div className="suggestionItem" key={anime.node.id}>
+                <Link onClick={()=>setAnimeList([])} className="suggestionItem" key={anime.node.id} to="/aboutAnime">
                   <img src={anime.node.main_picture.large} />
                   <p>{anime.node.title}</p>
-                </div>
+                </Link>
               );
             })}
           </div>
@@ -106,7 +109,7 @@ function NavLinks({ isMobile, closeMobileMenu }) {
           {searchInput.length >= 1 && <IoMdClose />}
         </button>
       </div>
-      <p
+      <p className="nav-link"
         onClick={() => {
           isMobile && closeMobileMenu();
         }}
@@ -117,7 +120,7 @@ function NavLinks({ isMobile, closeMobileMenu }) {
       {userInfo.name ? (
         <img className="profilePicture" src={userInfo.picture} />
       ) : (
-        <p
+        <p className="nav-link"
           onClick={() => {
             isMobile && closeMobileMenu();
             handleLogin();
