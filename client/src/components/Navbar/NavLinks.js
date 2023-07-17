@@ -90,6 +90,10 @@ function NavLinks({ isMobile, closeMobileMenu }) {
   const handleSearch = (value) => {
     setSearchInput(value);
     searchAnime(value);
+
+    if(value === ""){
+      setAnimeList([]);
+    }
   };
 
   return (
@@ -105,15 +109,20 @@ function NavLinks({ isMobile, closeMobileMenu }) {
           placeholder="Search anime"
           onChange={(e) => handleSearch(e.target.value)}
         />
+        {searchInput && (
           <div className="suggestionContainer">
-          {animeList.map((anime) => {
-            return (
-              <div className="suggestionItem" key={anime.node.id}>
-                <p>{anime.node.title}</p>
-              </div>
-            );
-          })}
-        </div>
+            {animeList.map((anime) => {
+              console.log(anime);
+              return (
+                <div className="suggestionItem" key={anime.node.id}>
+                  <img src={anime.node.main_picture.large} />
+                  <p>{anime.node.title}</p>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         <button
           onClick={() => {
             setSearchInput("");
@@ -122,8 +131,6 @@ function NavLinks({ isMobile, closeMobileMenu }) {
         >
           {searchInput.length >= 1 && <IoMdClose />}
         </button>
-
-      
       </div>
       <p
         onClick={() => {
