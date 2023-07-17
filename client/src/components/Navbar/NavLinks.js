@@ -4,6 +4,7 @@ import "./navbar.scss";
 import { motion } from "framer-motion";
 import { useGlobalContext } from "../../context";
 import axios from "axios";
+import { getAccessToken, getAnime, getProfileInfo } from "../../apiCalls/auth";
 
 function NavLinks({ isMobile, closeMobileMenu }) {
   const { handleSelectTime, codeChallenge, userInfo, setUserInfo } =
@@ -23,21 +24,7 @@ function NavLinks({ isMobile, closeMobileMenu }) {
       });
 
       if (convertedArr[0] !== undefined) {
-        const tokenResponse = await axios.post(
-          "/auth/get-token",
-
-          {
-            code: convertedArr[0],
-            state: convertedArr[1],
-            challenge: sessionStorage.getItem("codeChallenge"),
-          },
-
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const tokenResponse = await getAccessToken(convertedArr); //call for getting access token
         sessionStorage.setItem("access_token", tokenResponse.data.access_token);
         sessionStorage.setItem(
           "refresh_token",
@@ -45,11 +32,7 @@ function NavLinks({ isMobile, closeMobileMenu }) {
         );
         sessionStorage.setItem("expires_in", tokenResponse.data.expires_in);
 
-        const profileResponse = await axios.get("/auth/get-profile-info", {
-          params: {
-            access_token: sessionStorage.getItem("access_token"),
-          },
-        });
+        const profileResponse = await getProfileInfo();
         setUserInfo(profileResponse.data);
       }
     };
@@ -63,26 +46,17 @@ function NavLinks({ isMobile, closeMobileMenu }) {
 
   //for gettting code from mal server
   const handleLogin = async () => {
-    try {
-      const response = await axios.get("/auth/anime-proxy", {
-        params: { challenge: sessionStorage.getItem("codeChallenge") },
-      });
-      const path = `https://myanimelist.net${response.data.path}`;
-      window.location.href = path;
-    } catch (error) {
-      console.log(error);
-    }
+    const response = await axios.get("/auth/anime-proxy", {
+      params: { challenge: sessionStorage.getItem("codeChallenge") },
+    });
+    const path = `https://myanimelist.net${response.data.path}`;
+    window.location.href = path;
   };
 
   //for searching anime
   const searchAnime = async (searchValue) => {
     if (searchValue.length >= 3) {
-      const animeResponse = await axios.get("/anime/get-anime-list", {
-        params: {
-          access_token: sessionStorage.getItem("access_token"),
-          searchValue,
-        },
-      });
+      const animeResponse = await getAnime(searchValue);
       setAnimeList(animeResponse.data.data);
     }
   };
@@ -91,7 +65,7 @@ function NavLinks({ isMobile, closeMobileMenu }) {
     setSearchInput(value);
     searchAnime(value);
 
-    if(value === ""){
+    if (value === "") {
       setAnimeList([]);
     }
   };

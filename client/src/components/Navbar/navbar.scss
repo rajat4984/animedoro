@@ -1,6 +1,9 @@
 @use "../../scss/mixin" as *;
 @use "../../scss/variables" as *;
 
+
+//common view - mobile first
+
 .navbar {
   @include flexBox(space-between);
   margin: 0.5em;
@@ -67,6 +70,9 @@
     }
   }
 
+
+  //mobile  only view
+
   .navigation {
     display: none;
   }
@@ -102,6 +108,10 @@
       }
     }
   }
+
+
+
+  // desktop only view
 
   @include sm {
     .mobile-navigation {
