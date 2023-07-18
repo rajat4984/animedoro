@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
+import { AiOutlinePlus } from "react-icons/ai";
+import { BsBookmarks } from "react-icons/bs";
 import "./navbar.scss";
 import { motion } from "framer-motion";
 import { useGlobalContext } from "../../context";
 import axios from "axios";
 import { getAccessToken, getAnime, getProfileInfo } from "../../apiCalls/auth";
-import { Link } from "react-router-dom";
 
 function NavLinks({ isMobile, closeMobileMenu }) {
-  const { handleSelectTime, codeChallenge, userInfo, setUserInfo } =
-    useGlobalContext();
+  const {
+    handleSelectTime,
+    codeChallenge,
+    userInfo,
+    setUserInfo,
+    setAnimeDetailId,
+  } = useGlobalContext();
 
   const [searchInput, setSearchInput] = useState("");
   const [animeList, setAnimeList] = useState([]);
@@ -40,13 +46,11 @@ function NavLinks({ isMobile, closeMobileMenu }) {
     };
 
     getToken();
-  }, [codeChallenge]);
-
+  }, [setUserInfo, codeChallenge]);
 
   // for navbar animation
   const animationFrom = { opacity: 0, x: 200 };
   const animateTo = { opacity: 1, x: 0 };
-
 
   //for gettting code from mal server
   const handleLogin = async () => {
@@ -91,16 +95,35 @@ function NavLinks({ isMobile, closeMobileMenu }) {
           <div className="suggestionContainer">
             {animeList.map((anime) => {
               return (
-                <Link onClick={()=>setAnimeList([])} className="suggestionItem" key={anime.node.id} to="/aboutAnime">
-                  <img src={anime.node.main_picture.large} />
-                  <p>{anime.node.title}</p>
-                </Link>
+                <div
+                  onClick={() => {
+                    setAnimeList([]);
+                    setAnimeDetailId(anime.node.id);
+                  }}
+                  className="suggestionItem"
+                  key={anime.node.id}
+                >
+                  <div className="animeInfo">
+                    <img alt="anime cover" src={anime.node.main_picture.large} />
+                    <p>{anime.node.title}</p>
+                  </div>
+
+                  <div className="btnContainer">
+                    <button title="Add to currently watching">
+                      <AiOutlinePlus />
+                    </button>
+                    <button>
+                      <BsBookmarks title="Add to watch later" />
+                    </button>
+                  </div>
+                </div>
               );
             })}
           </div>
         )}
 
         <button
+          className="closeSearchBtn"
           onClick={() => {
             setSearchInput("");
             setAnimeList([]);
@@ -109,7 +132,8 @@ function NavLinks({ isMobile, closeMobileMenu }) {
           {searchInput.length >= 1 && <IoMdClose />}
         </button>
       </div>
-      <p className="nav-link"
+      <p
+        className="nav-link"
         onClick={() => {
           isMobile && closeMobileMenu();
         }}
@@ -118,9 +142,10 @@ function NavLinks({ isMobile, closeMobileMenu }) {
       </p>
 
       {userInfo.name ? (
-        <img className="profilePicture" src={userInfo.picture} />
+        <img alt="use profile picuture" className="profilePicture" src={userInfo.picture} />
       ) : (
-        <p className="nav-link"
+        <p
+          className="nav-link"
           onClick={() => {
             isMobile && closeMobileMenu();
             handleLogin();

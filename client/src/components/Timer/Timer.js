@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import "./timer.scss";
 import { HiPlay, HiPause, HiStop } from "react-icons/hi";
 import useInterval from "../../hooks/useInterval";

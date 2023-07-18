@@ -1,6 +1,5 @@
 import Main from "./components/Main/Main";
 import Navbar from "./components/Navbar/Navbar";
-import AboutAnime from "./components/AboutAnime/AboutAnime";
 import "./scss/index.scss";
 import { Routes, Route } from "react-router-dom";
 
@@ -11,7 +10,6 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/aboutAnime" element={<AboutAnime />} />
       </Routes>
     </div>
   );

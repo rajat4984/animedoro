@@ -18,6 +18,7 @@ export const AppProvider = ({ children }) => {
   const [isBreak, setIsBreak] = useState(false);
   const [codeChallenge, setCodeChallenge] = useState("");
   const [userInfo,setUserInfo] = useState({});
+  const [animeDetailId,setAnimeDetailId] = useState(0);
 
   const progressRef = useRef();
 
@@ -73,7 +74,9 @@ export const AppProvider = ({ children }) => {
         setIsBreak,
         codeChallenge,
         userInfo,
-        setUserInfo
+        setUserInfo,
+        animeDetailId,
+        setAnimeDetailId
       }}
     >
       {children}
