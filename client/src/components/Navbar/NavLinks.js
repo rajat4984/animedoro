@@ -6,7 +6,12 @@ import "./navbar.scss";
 import { motion } from "framer-motion";
 import { useGlobalContext } from "../../context";
 import axios from "axios";
-import { getAccessToken, getAnime, getProfileInfo } from "../../apiCalls/auth";
+import {
+  getAccessToken,
+  getAnime,
+  getProfileInfo,
+  refreshToken,
+} from "../../apiCalls/auth";
 
 function NavLinks({ isMobile, closeMobileMenu }) {
   const {
@@ -32,7 +37,6 @@ function NavLinks({ isMobile, closeMobileMenu }) {
 
       if (convertedArr[0] !== undefined) {
         const tokenResponse = await getAccessToken(convertedArr); //call for getting access token
-        console.log(tokenResponse);
         sessionStorage.setItem("access_token", tokenResponse.data.access_token);
         sessionStorage.setItem(
           "refresh_token",
@@ -42,6 +46,9 @@ function NavLinks({ isMobile, closeMobileMenu }) {
 
         const profileResponse = await getProfileInfo();
         setUserInfo(profileResponse.data);
+
+        const refreshResponse = await refreshToken();
+        console.log(refreshResponse);
       }
     };
 
@@ -104,7 +111,10 @@ function NavLinks({ isMobile, closeMobileMenu }) {
                   key={anime.node.id}
                 >
                   <div className="animeInfo">
-                    <img alt="anime cover" src={anime.node.main_picture.large} />
+                    <img
+                      alt="anime cover"
+                      src={anime.node.main_picture.large}
+                    />
                     <p>{anime.node.title}</p>
                   </div>
 
@@ -142,7 +152,11 @@ function NavLinks({ isMobile, closeMobileMenu }) {
       </p>
 
       {userInfo.name ? (
-        <img alt="use profile picuture" className="profilePicture" src={userInfo.picture} />
+        <img
+          alt="use profile picuture"
+          className="profilePicture"
+          src={userInfo.picture}
+        />
       ) : (
         <p
           className="nav-link"

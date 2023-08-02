@@ -27,11 +27,37 @@ export async function getProfileInfo() {
 }
 
 export async function getAnime(searchValue) {
-  const animeResponse = await axios.get("/anime/get-anime-list", {
+  return  await axios.get("/anime/get-anime-list", {
     params: {
       access_token: sessionStorage.getItem("access_token"),
       searchValue,
     },
   });
-  return animeResponse;
+}
+
+export async function refreshToken(){
+  const refreshResponse = await axios.post("/auth/refresh-token",{
+    refresh_token:sessionStorage.getItem("refresh_token")
+  }, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+
+  return refreshResponse;
+
+  // const tokenResponse = await axios.post(
+  //   "/auth/get-token",
+  //   {
+  //     code: convertedArr[0],
+  //     state: convertedArr[1],
+  //     challenge: sessionStorage.getItem("codeChallenge"),
+  //   },
+
+  //   {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   }
+
 }
