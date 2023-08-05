@@ -3,7 +3,6 @@ const axios = require("axios");
 const http = require("http");
 require("dotenv").config();
 
-
 // request for getting code and state from mal servers
 router.get("/anime-proxy", async (req, res) => {
   try {
@@ -63,5 +62,33 @@ router.get("/get-profile-info", async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+router.post("/refresh-token", async (res, req) => {
+  try {
+    console.log(req.params);
+    const params = {
+      client_id: process.env.CLIENT_ID,
+      client_secret: process.env.CLIENT_SECRET,
+      grant_type: "refresh_token",
+      refresh_token: `${req.body.refresh_token}`,
+    };
+
+    // for making data in form-urlencoded
+    const formData = new URLSearchParams();
+    for (const key in params) {
+      formData.append(key, params[key]);
+    }
+    const response = await axios.post(
+      "https://myanimelist.net/v1/oauth2/token",
+      formData.toString(),
+      { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+    );
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+});
+
 
 module.exports = router;

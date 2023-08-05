@@ -7,6 +7,7 @@ const animeRouter = require("./routes/anime");
 
 
 app.use(express.json());
+app.use(express.urlencoded());
 app.use(cors());
 app.use("/auth", authRoute);
 app.use("/anime",animeRouter);
