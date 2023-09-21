@@ -63,15 +63,18 @@ router.get("/get-profile-info", async (req, res) => {
   }
 });
 
-router.post("/refresh-token", async (res, req) => {
+router.post("/refresh-token", async (req, res) => {
+  console.log("fpojsdfpokf",req.body)
   try {
-    console.log(req.params);
     const params = {
       client_id: process.env.CLIENT_ID,
       client_secret: process.env.CLIENT_SECRET,
       grant_type: "refresh_token",
       refresh_token: `${req.body.refresh_token}`,
     };
+    console.log("client_id", process.env.CLIENT_ID);
+    console.log("client_secret", process.env.CLIENT_SECRET);
+    console.log("refresh",req.body.refresh_token);
 
     // for making data in form-urlencoded
     const formData = new URLSearchParams();
@@ -89,6 +92,5 @@ router.post("/refresh-token", async (res, req) => {
     res.status(500).json(error);
   }
 });
-
 
 module.exports = router;
